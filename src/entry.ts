@@ -3,7 +3,9 @@ import stylesStr from './styles.css?raw';
 
 //@ts-ignore
 window.initChatBot = (($doc) => {
+  const version = 'v1';
   const showClassName = 'idea-bosque-modal-open';
+  const aichatUrl = 'https://airobot.pages.dev?skip-auth=true&version' + version;
 
   function createStyles() {
     const style = $doc.createElement('style');
@@ -33,7 +35,7 @@ window.initChatBot = (($doc) => {
 
   function createIframe() {
     const iframe = $doc.createElement('iframe');
-    iframe.src = "https://airobot.pages.dev?skip-auth=true";
+    iframe.src = aichatUrl;
     iframe.setAttribute('frameBorder', '0');
     return iframe;
   }
