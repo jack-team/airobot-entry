@@ -14,7 +14,7 @@
 .idea-bosque-iframe-loading span:nth-child(3){animation-delay:.3s !important}
 .idea-bosque-modal-open .idea-bosque-modal{visibility:visible;opacity:1;transform:translateX(0)}
 .idea-bosque-modal-open .idea-bosque-btn{visibility:hidden;opacity:0}
-.idea-bosque-modal-close{display:block;position:absolute;right:16px;top:24px;width:32px;height:32px;cursor:pointer}
+.idea-bosque-modal-close{display:block !important;position:absolute;right:16px;top:24px;width:32px;height:32px;cursor:pointer}
 .idea-bosque-modal-close::before,.idea-bosque-modal-close::after{content:'';position:absolute;top:50%;left:50%;width:80%;height:2px;background-color:#666;transform-origin:center}
 .idea-bosque-modal-close::before{transform:translate(-50%,-50%) rotate(45deg)}
 .idea-bosque-modal-close::after{transform:translate(-50%,-50%) rotate(-45deg)}
