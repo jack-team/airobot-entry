@@ -3,9 +3,9 @@ import stylesStr from './styles.css?raw';
 
 //@ts-ignore
 window.initChatBot = (($doc) => {
-  const version = 'v1';
+  const version = 'v2';
   const showClassName = 'idea-bosque-modal-open';
-  const aichatUrl = 'https://airobot.pages.dev?skip-auth=true&version' + version;
+  const aichatUrl = 'https://airobot.pages.dev?skip-auth=true&version=' + version;
 
   function createStyles() {
     const style = $doc.createElement('style');
