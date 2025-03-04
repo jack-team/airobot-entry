@@ -1,3 +1,4 @@
+import qs from 'qs';
 import svg from './assets/chat.svg';
 import stylesStr from './styles.css?raw';
 
@@ -5,7 +6,7 @@ import stylesStr from './styles.css?raw';
 window.initChatBot = (($doc) => {
   const version = 'v2';
   const showClassName = 'idea-bosque-modal-open';
-  const aichatUrl = 'https://airobot.pages.dev?skip-auth=true&version=' + version;
+  const aichatUrl = 'https://airobot.pages.dev';
 
   function createStyles() {
     const style = $doc.createElement('style');
@@ -33,17 +34,23 @@ window.initChatBot = (($doc) => {
     return el;
   }
 
-  function createIframe() {
+  function createIframe(params: Record<string, any>) {
+    const query = qs.stringify({
+      ...params,
+      version,
+      'skip-auth': 'true'
+    });
+
     const iframe = $doc.createElement('iframe');
-    iframe.src = aichatUrl;
+    iframe.src = `${aichatUrl}?${query}`;
     iframe.setAttribute('frameBorder', '0');
     return iframe;
   }
 
-  function createModal() {
+  function createModal(params: Record<string, any>) {
     const modal = $doc.createElement('div');
     const loading = createLoading();
-    const iframe = createIframe();
+    const iframe = createIframe(params);
     modal.appendChild(loading);
     modal.appendChild(iframe);
     modal.classList.add('idea-bosque-modal');
@@ -57,12 +64,12 @@ window.initChatBot = (($doc) => {
     return btn;
   }
 
-  function openModal(el: HTMLDivElement) {
+  function openModal(el: HTMLDivElement, params: Record<string, any> = {}) {
     //@ts-ignore
     if (!openModal.created) {
       //@ts-ignore
       openModal.created = true;
-      const modal = createModal();
+      const modal = createModal(params);
       const closeBtn = createCloseBtn();
       closeBtn.onclick = () => toggleModal(el);
       modal.appendChild(closeBtn);
@@ -71,7 +78,7 @@ window.initChatBot = (($doc) => {
     requestAnimationFrame(() => toggleModal(el));
   }
 
-  return () => {
+  return (params?: Record<string, any>) => {
     const $body = $doc.body;
     const el = $doc.createElement('div');
     el.classList.add('idea-bosque-entry');
@@ -85,7 +92,7 @@ window.initChatBot = (($doc) => {
     el.appendChild(entry);
 
     // 点击按钮
-    entry.onclick = () => openModal(el);
+    entry.onclick = () => openModal(el, params);
     $body.appendChild(el);
   }
 
