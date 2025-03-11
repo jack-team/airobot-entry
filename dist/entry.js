@@ -150,8 +150,6 @@
 }
 
 .idea-bosque-page-wrapper {
-  width: 600px;
-  height: 640px;
   margin: auto;
 }
 
