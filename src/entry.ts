@@ -14,7 +14,7 @@ window.initChatBot = (($doc) => {
   const version = 'v2';
   const $body = $doc.body;
   const getClsName = (name: string) => ['idea-bosque', name].join('-');
-  const aichatUrl = 'https://abacusipllc-ai-chat.pages.dev';
+  const aichatUrl = 'https://ideabosque-ai-chat.pages.dev';
   const showClassName = getClsName('modal-open');
 
   return (input?: InitChatBotOptions) => {
