@@ -69,6 +69,7 @@ window.initChatBot = (($doc) => {
     function createIframe() {
       const query = qs.stringify({
         ...input?.urlQuery,
+        mode: 'iframe',
         version
       });
 
