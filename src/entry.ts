@@ -2,7 +2,7 @@ import styles from './styles.css?raw';
 
 const $doc = document;
 const libName = 'ideabosque';
-const airobotUrl = 'http://localhost:5173';
+const airobotUrl = 'https://ideabosque-ai-chat.pages.dev';
 
 const Events = {
   GET_POSITION: `${libName}-get-position`
