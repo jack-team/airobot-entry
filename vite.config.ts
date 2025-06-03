@@ -9,6 +9,7 @@ export default defineConfig(config => {
           entryFileNames: 'entry.js',
           // 对于其他静态资源（如图片、字体等）
           assetFileNames: '[name].[ext]',
+          format: 'umd'
         }
       }
     }
