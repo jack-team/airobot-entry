@@ -42,7 +42,7 @@ export class IframeBridge {
   private onMessage = (e: MessageEvent<EventResult>) => {
     const type = e.data.type;
     let data = e.data.data;
-    if (type.includes(appName)) {
+    if (type?.includes?.(appName)) {
       const eventType = type.replace(`${appName}-`, '');
       if (data) data = JSON.parse(data);
       this.event.emit(eventType as EventTypes, data);
