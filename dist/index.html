@@ -1,18 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Vite + TS</title>
-  <script type="module" crossorigin src="/entry.js"></script>
-</head>
+    <title>Vite + TS</title>
+    <script type="module" crossorigin src="/entry.js"></script>
+  </head>
 
-<body>
-  <div id="app">
-    <div id="page"></div>
-  </div>
-</body>
+  <body>
+    <div id="app">
+      <div id="page"></div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        window.initIdeabosqueAi();
+      });
+    </script>
+  </body>
 </html>
