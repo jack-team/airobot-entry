@@ -10,7 +10,6 @@ declare global {
 }
 
 let airobotUrl = 'https://ideabosque-ai-chat.pages.dev';
-const cdnDomain = 'https://airobot-entry.pages.dev';
 
 /**
  * 创建 styles
