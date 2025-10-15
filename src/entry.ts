@@ -1,7 +1,6 @@
-import qs from 'qs';
 import styles from './styles.css?raw';
 import { IframeBridge, appName } from './bridge';
-import { getElementSize, getLocation } from './utils';
+import { getElementSize, getLocation, qs } from './utils';
 
 declare global {
   interface Window {
@@ -11,6 +10,7 @@ declare global {
 }
 
 let airobotUrl = 'https://ideabosque-ai-chat.pages.dev';
+const cdnDomain = 'https://airobot-entry.pages.dev';
 
 /**
  * 创建 styles
@@ -44,9 +44,9 @@ const createIframe = (container: Element, script: Element) => {
     coordination,
     agent,
     endpointId
-  }, { addQueryPrefix: true });
+  });
 
-  $el.src = `${airobotUrl}${queryStr}`;
+  $el.src = `${airobotUrl}?${queryStr}`;
   $el.className = `${appName}-ai-iframe`;
   $el.style.width = size.width + 'px';
   $el.style.height = size.height + 'px';
@@ -104,7 +104,7 @@ const requestPosition = (el: HTMLIFrameElement) => {
     $container.appendChild($drawerBody);
     $drawerBody.appendChild($drawerSwitch);
     $drawerSwitch.appendChild($drawerContent);
-    $drawerContent.innerHTML = 'B2B Chat Agent';
+    $drawerContent.innerHTML = 'Chat Agent B2B';
     document.body.appendChild($container);
     createAiContent($drawerBody);
 

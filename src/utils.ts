@@ -18,3 +18,10 @@ export const getLocation = () => {
     });
   });
 }
+
+export const qs = {
+  stringify: (obj: Record<string, any>) => {
+    const keys = Object.keys(obj);
+    return keys.map(key => `${key}=${obj[key]}`).join('&');
+  }
+}
