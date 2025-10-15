@@ -1,6 +1,14 @@
+import qs from 'qs';
 import styles from './styles.css?raw';
 import { IframeBridge, appName } from './bridge';
-import { documentLoaded, getElementSize, getLocation } from './utils';
+import { getElementSize, getLocation } from './utils';
+
+declare global {
+  interface Window {
+    initIdeabosqueAi: () => void;
+    removeIdeabosqueAi: () => void;
+  }
+}
 
 let airobotUrl = 'https://ideabosque-ai-chat.pages.dev';
 
@@ -25,29 +33,31 @@ const createIframe = (container: Element, script: Element) => {
   const size = getElementSize(script);
   const $el = document.createElement('iframe');
   const url = script.getAttribute('iframe-url');
-  container.appendChild($el);
+  const coordination = script.getAttribute('coordination');
+  const agent = script.getAttribute('agent');
+  const endpointId = script.getAttribute('endpoint-id');
+
   if (url) airobotUrl = url;
-  $el.src = `${airobotUrl}?mode=iframe`;
+
+  const queryStr = qs.stringify({
+    mode: 'preview',
+    coordination,
+    agent,
+    endpointId
+  }, { addQueryPrefix: true });
+
+  $el.src = `${airobotUrl}${queryStr}`;
   $el.className = `${appName}-ai-iframe`;
   $el.style.width = size.width + 'px';
   $el.style.height = size.height + 'px';
   $el.setAttribute('frameborder', '0');
+  $el.setAttribute('allow', 'geolocation');
+  container.appendChild($el);
   return $el;
 }
 
-documentLoaded(() => {
-  const $script = getCurrentScript();
-  const selector = $script?.getAttribute('selector');
-  const $container = document.querySelector(selector!);
-
-  if (!$container) {
-    return;
-  }
-
-  // 创建一个iframe， 并设置属性
-  const $iframe = createIframe($container, $script!);
-  const bridge = new IframeBridge($iframe);
-
+const requestPosition = (el: HTMLIFrameElement) => {
+  const bridge = new IframeBridge(el);
   // 接受到定位请求
   bridge.on('get-position', async () => {
     let success = true;
@@ -58,8 +68,74 @@ documentLoaded(() => {
       success = false;
     }
     bridge.sendMessage('get-position', {
-      ...result,
-      success
+      ...result, success
     });
   });
-});
+}
+
+
+(() => {
+  let created = false;
+  let $container: Element | null = null;
+  const $script = getCurrentScript();
+  const openType = $script?.getAttribute('open-type') || 'screen';
+
+  // 创建 ai 主体
+  const createAiContent = (ele: Element | null) => {
+    if (!ele || created) return;
+    // 创建一个iframe， 并设置属性
+    requestPosition(createIframe(ele, $script!))
+    created = true;
+  }
+
+  // 创建一个抽屉
+  const createDrawer = (open = true) => {
+    $container = document.createElement('div');
+    const $drawerBody = document.createElement('div');
+    const $drawerSwitch = document.createElement('div');
+    const $drawerContent = document.createElement('div');
+    const containerClassName = `${appName}-ai-drawer`;
+    const bodyClassName = `${appName}-ai-drawer-body`;
+    const switchClassName = `${appName}-ai-drawer-switch`;
+    const openClassName = `${appName}-ai-drawer-open`;
+    $container.className = containerClassName;
+    $drawerBody.className = bodyClassName;
+    $drawerSwitch.className = switchClassName;
+    $container.appendChild($drawerBody);
+    $drawerBody.appendChild($drawerSwitch);
+    $drawerSwitch.appendChild($drawerContent);
+    $drawerContent.innerHTML = 'B2B Chat Agent';
+    document.body.appendChild($container);
+    createAiContent($drawerBody);
+
+    if (open) {
+      $container.classList.add(openClassName);
+    }
+
+    $drawerSwitch.addEventListener('click', () => {
+      $container?.classList.toggle(openClassName);
+    });
+  }
+
+  // 兼容老版本，直接显示
+  if (openType === 'screen') {
+    const selector = $script?.getAttribute('selector');
+
+    if (selector) {
+      $container = document.querySelector(selector);
+      createAiContent($container)
+    };
+  }
+
+  // 初始化 ai
+  window.initIdeabosqueAi = (open = true) => {
+    if (openType !== 'drawer' || created) return;
+    createDrawer(open);
+  }
+
+  // 移除 ai
+  window.removeIdeabosqueAi = () => {
+    if (openType !== 'drawer') return;
+    if ($container) document.body.removeChild($container);
+  }
+})();

@@ -1,18 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Vite + TS</title>
-</head>
+    <title>Vite + TS</title>
+  </head>
 
-<body>
-  <div id="app">
-    <div id="page"></div>
-  </div>
-  <script type="module" data-role="ideabosque-ai" width="600" height="500" selector="#app" src="/src/entry.ts"></script>
-</body>
+  <body>
+    <div id="app">
+      <div id="page"></div>
+    </div>
+    <script
+      type="module"
+      data-role="ideabosque-ai"
+      width="400"
+      selector="#app"
+      open-type="drawer"
+      endpoint-id="airobot-store"
+      coordination="2435144671132914168"
+      agent="agent-1759890279-fc14af99"
+      src="/src/entry.ts"
+    ></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        window.initIdeabosqueAi();
+      });
+    </script>
+  </body>
 </html>
