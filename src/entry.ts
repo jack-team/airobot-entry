@@ -75,12 +75,12 @@ const requestPosition = (el: HTMLIFrameElement) => {
 
 (() => {
   let created = false;
-  let $container: Element | null = null;
+  let $container: HTMLDivElement | null = null;
   const $script = getCurrentScript();
   const openType = $script?.getAttribute('open-type') || 'screen';
 
   // 创建 ai 主体
-  const createAiContent = (ele: Element | null) => {
+  const createAiContent = (ele: HTMLDivElement | null) => {
     if (!ele || created) return;
     // 创建一个iframe， 并设置属性
     requestPosition(createIframe(ele, $script!))
@@ -98,6 +98,7 @@ const requestPosition = (el: HTMLIFrameElement) => {
     const switchClassName = `${appName}-ai-drawer-switch`;
     const openClassName = `${appName}-ai-drawer-open`;
     $container.className = containerClassName;
+    $container.setAttribute('popover', 'manual');
     $drawerBody.className = bodyClassName;
     $drawerSwitch.className = switchClassName;
     $container.appendChild($drawerBody);
@@ -108,6 +109,7 @@ const requestPosition = (el: HTMLIFrameElement) => {
     createAiContent($drawerBody);
 
     if (open) {
+      $container?.showPopover?.();
       $container.classList.add(openClassName);
     }
 
