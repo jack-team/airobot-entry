@@ -37,6 +37,7 @@ const createIframe = (container: Element, script: Element) => {
   const question = script.getAttribute('question');
   const endpointId = script.getAttribute('endpoint-id');
   const coordination = script.getAttribute('coordination');
+  const agentName = script.getAttribute('agent-name')
 
   if (url) airobotUrl = url;
 
@@ -44,6 +45,7 @@ const createIframe = (container: Element, script: Element) => {
     agent,
     userId,
     question,
+    agentName,
     endpointId,
     coordination,
     mode: 'preview',
