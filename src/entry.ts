@@ -137,6 +137,9 @@ const requestPosition = (el: HTMLIFrameElement) => {
   // 移除 ai
   window.removeIdeabosqueAi = () => {
     if (openType !== 'drawer') return;
-    if ($container) document.body.removeChild($container);
+    if ($container && created) {
+      document.body.removeChild($container);
+      created = false;
+    }
   }
 })();
