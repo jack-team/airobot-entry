@@ -32,17 +32,21 @@ const createIframe = (container: Element, script: Element) => {
   const size = getElementSize(script);
   const $el = document.createElement('iframe');
   const url = script.getAttribute('iframe-url');
-  const coordination = script.getAttribute('coordination');
   const agent = script.getAttribute('agent');
+  const userId = script.getAttribute('userId');
+  const question = script.getAttribute('question');
   const endpointId = script.getAttribute('endpoint-id');
+  const coordination = script.getAttribute('coordination');
 
   if (url) airobotUrl = url;
 
   const queryStr = qs.stringify({
-    mode: 'preview',
-    coordination,
     agent,
-    endpointId
+    userId,
+    question,
+    endpointId,
+    coordination,
+    mode: 'preview',
   });
 
   $el.src = `${airobotUrl}?${queryStr}`;
@@ -71,7 +75,6 @@ const requestPosition = (el: HTMLIFrameElement) => {
     });
   });
 }
-
 
 (() => {
   let created = false;
