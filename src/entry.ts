@@ -158,7 +158,7 @@ const requestPosition = (el: HTMLIFrameElement) => {
   // 初始化 ai
   window.initIdeabosqueAi = async (open = true) => {
     if (created) return;
-    await createGoogleFontLink();
+    createGoogleFontLink();
     createDrawer(open);
     created = true;
   }
