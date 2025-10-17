@@ -94,7 +94,9 @@ const requestPosition = (el: HTMLIFrameElement) => {
 
   const createCloseButton = () => {
     const $closeButton = document.createElement('div');
+    const $closeButtonContent = document.createElement('div');
     $closeButton.className = `${appName}-ai-window-close`;
+    $closeButton.appendChild($closeButtonContent);
     return $closeButton;
   }
 
