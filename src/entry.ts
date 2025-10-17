@@ -10,7 +10,7 @@ declare global {
 }
 
 let airobotUrl = 'https://shopify-ai-chat.pages.dev';
-const googleFontUrl = 'https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap';
+const googleFontUrl = 'https://fonts.googleapis.com/css2?family=Hind&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap';
 
 const createGoogleFontLink = () => {
   return new Promise((resovle) => {
