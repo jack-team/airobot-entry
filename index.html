@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+    />
 
     <title>Vite + TS</title>
   </head>
@@ -16,8 +21,6 @@
       type="module"
       data-role="ideabosque-ai"
       width="480"
-      selector="#app"
-      open-type="drawer"
       endpoint-id="airobot-store"
       coordination="2435144671132914168"
       agent="agent-1760604851-0fda15f6"
@@ -25,7 +28,7 @@
       src="/src/entry.ts"
     ></script>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener("DOMContentLoaded", () => {
         window.initIdeabosqueAi();
       });
     </script>

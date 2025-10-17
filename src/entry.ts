@@ -10,6 +10,18 @@ declare global {
 }
 
 let airobotUrl = 'https://shopify-ai-chat.pages.dev';
+const googleFontUrl = 'https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap';
+
+const createGoogleFontLink = () => {
+  return new Promise((resovle) => {
+    const head = document.querySelector('head');
+    const link = document.createElement('link');
+    link.setAttribute('rel', "stylesheet");
+    link.href = googleFontUrl;
+    link.onload = () => resovle(undefined);
+    head?.appendChild(link);
+  });
+}
 
 /**
  * 创建 styles
@@ -82,15 +94,6 @@ const requestPosition = (el: HTMLIFrameElement) => {
   let created = false;
   let $container: HTMLDivElement | null = null;
   const $script = getCurrentScript();
-  const openType = $script?.getAttribute('open-type') || 'screen';
-
-  // 创建 ai 主体
-  const createAiContent = (ele: HTMLDivElement | null) => {
-    if (!ele || created) return;
-    // 创建一个iframe， 并设置属性
-    requestPosition(createIframe(ele, $script!))
-    created = true;
-  }
 
   const createCloseButton = () => {
     const $closeButton = document.createElement('div');
@@ -100,28 +103,43 @@ const requestPosition = (el: HTMLIFrameElement) => {
     return $closeButton;
   }
 
+  const createOpenSwitch = () => {
+    const $drawerSwitch = document.createElement('div');
+    const $drawerIcon = document.createElement('div');
+    const $drawerContent = document.createElement('div');
+    const switchClassName = `${appName}-ai-drawer-switch`;
+    $drawerIcon.className = `${appName}-ai-drawer-switch-icon`;
+    $drawerContent.className = `${appName}-ai-drawer-switch-content`;
+    $drawerSwitch.className = switchClassName;
+    $drawerSwitch.appendChild($drawerIcon);
+    $drawerSwitch.appendChild($drawerContent);
+    $drawerContent.innerHTML = `
+      <div class="${appName}-ai-drawer-switch-title">B2B Chat Agent</div>
+      <div class="${appName}-ai-drawer-switch-desc">Get Net 30 at checkout</div>
+    `;
+    return $drawerSwitch;
+  }
+
   // 创建一个抽屉
-  const createDrawer = (open = true) => {
+  const createDrawer = async (open = true) => {
     const $body = document.body;
     $container = document.createElement('div');
     const $drawerBody = document.createElement('div');
-    const $drawerSwitch = document.createElement('div');
-    const $drawerContent = document.createElement('div');
     const $closeButton = createCloseButton();
+    const $drawerSwitch = createOpenSwitch();
     const containerClassName = `${appName}-ai-drawer`;
     const bodyClassName = `${appName}-ai-drawer-body`;
-    const switchClassName = `${appName}-ai-drawer-switch`;
     const openClassName = `${appName}-ai-drawer-open`;
     $container.className = containerClassName;
     $container.setAttribute('popover', 'manual');
     $drawerBody.className = bodyClassName;
-    $drawerSwitch.className = switchClassName;
+
     $container.appendChild($drawerBody);
     $container.appendChild($drawerSwitch);
     $drawerBody.appendChild($closeButton);
-    $drawerSwitch.appendChild($drawerContent);
     $body.appendChild($container);
-    createAiContent($drawerBody);
+    // 创建iframe
+    requestPosition(createIframe($drawerBody, $script!))
 
     if (open) {
       $container?.showPopover?.();
@@ -137,25 +155,16 @@ const requestPosition = (el: HTMLIFrameElement) => {
     });
   }
 
-  // 兼容老版本，直接显示
-  if (openType === 'screen') {
-    const selector = $script?.getAttribute('selector');
-
-    if (selector) {
-      $container = document.querySelector(selector);
-      createAiContent($container)
-    };
-  }
-
   // 初始化 ai
-  window.initIdeabosqueAi = (open = true) => {
-    if (openType !== 'drawer' || created) return;
+  window.initIdeabosqueAi = async (open = true) => {
+    if (created) return;
+    await createGoogleFontLink();
     createDrawer(open);
+    created = true;
   }
 
   // 移除 ai
   window.removeIdeabosqueAi = () => {
-    if (openType !== 'drawer') return;
     if ($container && created) {
       document.body.removeChild($container);
       created = false;
