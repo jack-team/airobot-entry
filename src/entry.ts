@@ -105,6 +105,7 @@ const requestPosition = (el: HTMLIFrameElement) => {
     const $drawerBody = document.createElement('div');
     const $drawerSwitch = document.createElement('div');
     const $drawerContent = document.createElement('div');
+    const $closeButton = createCloseButton();
     const containerClassName = `${appName}-ai-drawer`;
     const bodyClassName = `${appName}-ai-drawer-body`;
     const switchClassName = `${appName}-ai-drawer-switch`;
@@ -114,8 +115,8 @@ const requestPosition = (el: HTMLIFrameElement) => {
     $drawerBody.className = bodyClassName;
     $drawerSwitch.className = switchClassName;
     $container.appendChild($drawerBody);
-    $drawerBody.appendChild($drawerSwitch);
-    $drawerBody.appendChild(createCloseButton());
+    $container.appendChild($drawerSwitch);
+    $drawerBody.appendChild($closeButton);
     $drawerSwitch.appendChild($drawerContent);
     $body.appendChild($container);
     createAiContent($drawerBody);
@@ -126,6 +127,10 @@ const requestPosition = (el: HTMLIFrameElement) => {
     }
 
     $drawerSwitch.addEventListener('click', () => {
+      $container?.classList.toggle(openClassName);
+    });
+
+    $closeButton.addEventListener('click', () => {
       $container?.classList.toggle(openClassName);
     });
   }
