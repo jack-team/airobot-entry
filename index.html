@@ -4,19 +4,11 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
-    />
-
     <title>Vite + TS</title>
   </head>
 
   <body>
-    <div id="app">
-      <div id="page"></div>
-    </div>
+    <div id="app"></div>
     <script
       type="module"
       data-role="ideabosque-ai"
@@ -30,6 +22,9 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         window.initIdeabosqueAi();
+        setTimeout(() => {
+          window.removeIdeabosqueAi();
+        },2000);
       });
     </script>
   </body>

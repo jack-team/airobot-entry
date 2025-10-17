@@ -1,4 +1,5 @@
 import styles from './styles.css?raw';
+import { FontUrl, AiChatUrl } from './const';
 import { IframeBridge, appName } from './bridge';
 import { getElementSize, getLocation, qs } from './utils';
 
@@ -9,16 +10,18 @@ declare global {
   }
 }
 
-let airobotUrl = 'https://shopify-ai-chat.pages.dev';
-const googleFontUrl = 'https://fonts.googleapis.com/css2?family=Hind&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap';
+let airobotUrl = AiChatUrl;
+const stylesDataRole = `${appName}-style`;
+const googleFontDataRole = `${appName}-google-font`;
 
 const createGoogleFontLink = () => {
   return new Promise((resovle) => {
     const head = document.querySelector('head');
     const link = document.createElement('link');
-    link.setAttribute('rel', "stylesheet");
-    link.href = googleFontUrl;
     link.onload = () => resovle(undefined);
+    link.setAttribute('rel', "stylesheet");
+    link.setAttribute('data-role', googleFontDataRole);
+    link.href = FontUrl;
     head?.appendChild(link);
   });
 }
@@ -29,7 +32,7 @@ const createGoogleFontLink = () => {
 const createStyles = () => {
   const head = document.querySelector('head');
   const el = document.createElement('style');
-  el.setAttribute('data-role', `${appName}-style`);
+  el.setAttribute('data-role', stylesDataRole);
   el.innerHTML = styles;
   head?.appendChild(el);
 }
@@ -155,6 +158,14 @@ const requestPosition = (el: HTMLIFrameElement) => {
     });
   }
 
+  const getStylesElement = () => {
+    return document.querySelector(`style[data-role="${stylesDataRole}"]`);
+  }
+
+  const getGoogleFontLinkElement = () => {
+    return document.querySelector(`link[data-role="${googleFontDataRole}"]`);
+  }
+
   // 初始化 ai
   window.initIdeabosqueAi = async (open = true) => {
     if (created) return;
@@ -165,9 +176,22 @@ const requestPosition = (el: HTMLIFrameElement) => {
 
   // 移除 ai
   window.removeIdeabosqueAi = () => {
-    if ($container && created) {
-      document.body.removeChild($container);
-      created = false;
+    if (!created) return;
+    const $body = document.body;
+    const $head = document.head;
+
+    const eles = [
+      getStylesElement(),
+      getGoogleFontLinkElement()
+    ];
+
+    if ($container) {
+      $body.removeChild($container);
     }
+
+    for (const el of eles) {
+      if (el) $head.removeChild(el);
+    }
+    created = false;
   }
 })();
