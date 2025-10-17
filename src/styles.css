@@ -38,10 +38,10 @@
 
 .ideabosque-ai-drawer-switch {
   position: absolute;
-  top: 50%;
+  bottom: 104px;
   right: 0;
   background: #3b6351;
-  transform: translateY(-50%) translateX(100%);
+  transform: translateX(calc(100% + 27px));
   background: 56px;
   height: 56px;
   width: 56px;
@@ -49,26 +49,27 @@
   border: 2px solid #F3F4F6;
   box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.08);
   padding: 4px;
+  cursor: pointer;
 }
 
-.ideabosque-ai-drawer-switch::after {
-  content: "";
-  width: 12px;
-  height: 12px;
-  display: block;
-  background-image: url(https://airobot-entry.pages.dev/arrow.png?v=1.0);
+.ideabosque-ai-window-close {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  background-image: url(https://shopify-airobot-entry.pages.dev/close.svg?v=1.0);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  transform: rotate(180deg);
-  transition: all .2s linear
 }
 
 .ideabosque-ai-drawer-switch div {
   width: 100%;
   height: 100%;
-  background: #FBF7F0;
   border-radius: 50%;
+  background-image: url(https://shopify-airobot-entry.pages.dev/avatar.svg?v=1.0);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .ideabosque-ai-drawer-open .ideabosque-ai-drawer-body {

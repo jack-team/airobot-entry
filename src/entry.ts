@@ -92,8 +92,15 @@ const requestPosition = (el: HTMLIFrameElement) => {
     created = true;
   }
 
+  const createCloseButton = () => {
+    const $closeButton = document.createElement('div');
+    $closeButton.className = `${appName}-ai-window-close`;
+    return $closeButton;
+  }
+
   // 创建一个抽屉
   const createDrawer = (open = true) => {
+    const $body = document.body;
     $container = document.createElement('div');
     const $drawerBody = document.createElement('div');
     const $drawerSwitch = document.createElement('div');
@@ -108,8 +115,9 @@ const requestPosition = (el: HTMLIFrameElement) => {
     $drawerSwitch.className = switchClassName;
     $container.appendChild($drawerBody);
     $drawerBody.appendChild($drawerSwitch);
+    $drawerBody.appendChild(createCloseButton());
     $drawerSwitch.appendChild($drawerContent);
-    document.body.appendChild($container);
+    $body.appendChild($container);
     createAiContent($drawerBody);
 
     if (open) {
