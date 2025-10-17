@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-let airobotUrl = 'https://ideabosque-ai-chat.pages.dev';
+let airobotUrl = 'https://shopify-ai-chat.pages.dev';
 
 /**
  * 创建 styles
@@ -37,7 +37,7 @@ const createIframe = (container: Element, script: Element) => {
   const question = script.getAttribute('question');
   const endpointId = script.getAttribute('endpoint-id');
   const coordination = script.getAttribute('coordination');
-  const agentName = script.getAttribute('agent-name')
+  const agentName = script.getAttribute('agent-name') || ''
 
   if (url) airobotUrl = url;
 
@@ -109,7 +109,6 @@ const requestPosition = (el: HTMLIFrameElement) => {
     $container.appendChild($drawerBody);
     $drawerBody.appendChild($drawerSwitch);
     $drawerSwitch.appendChild($drawerContent);
-    $drawerContent.innerHTML = 'Chat Agent B2B';
     document.body.appendChild($container);
     createAiContent($drawerBody);
 
