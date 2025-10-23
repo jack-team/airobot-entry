@@ -109,18 +109,37 @@ const requestPosition = (el: HTMLIFrameElement) => {
   const createOpenSwitch = () => {
     const $drawerSwitch = document.createElement('div');
     const $drawerIcon = document.createElement('div');
+    const $drawerContentWrapper = document.createElement('div');
+    const $drawerContentWrapperMain = document.createElement('div');
     const $drawerContent = document.createElement('div');
-    const switchClassName = `${appName}-ai-drawer-switch`;
+    const $drawerRightBtn = document.createElement('div');
+
+    $drawerSwitch.className = `${appName}-ai-drawer-switch`;
     $drawerIcon.className = `${appName}-ai-drawer-switch-icon`;
     $drawerContent.className = `${appName}-ai-drawer-switch-content`;
-    $drawerSwitch.className = switchClassName;
+    $drawerRightBtn.className = `${appName}-ai-drawer-switch-right-btn`;
+    $drawerContentWrapper.className = `${appName}-ai-drawer-switch-content-wrapper`;
+    $drawerContentWrapperMain.className= `${appName}-ai-drawer-switch-content-wrapper-main`
+
     $drawerSwitch.appendChild($drawerIcon);
-    $drawerSwitch.appendChild($drawerContent);
+    $drawerContentWrapper.appendChild($drawerContent);
+    $drawerContentWrapperMain.appendChild($drawerContentWrapper);
+
     $drawerContent.innerHTML = `
       <div class="${appName}-ai-drawer-switch-title">B2B Chat Agent</div>
       <div class="${appName}-ai-drawer-switch-desc">Get Net 30 at checkout</div>
     `;
-    return $drawerSwitch;
+
+    $drawerContentWrapper.appendChild($drawerRightBtn);
+    $drawerSwitch.appendChild($drawerContentWrapperMain);
+
+    return {
+      $drawerIcon,
+      $drawerSwitch,
+      $drawerRightBtn,
+      $drawerContentWrapper,
+      $drawerContentWrapperMain
+    }
   }
 
   // 创建一个抽屉
@@ -129,10 +148,20 @@ const requestPosition = (el: HTMLIFrameElement) => {
     $container = document.createElement('div');
     const $drawerBody = document.createElement('div');
     const $closeButton = createCloseButton();
-    const $drawerSwitch = createOpenSwitch();
+
+    const { 
+      $drawerIcon,
+      $drawerSwitch, 
+      $drawerRightBtn, 
+      $drawerContentWrapper, 
+      $drawerContentWrapperMain 
+    } = createOpenSwitch();
+
     const containerClassName = `${appName}-ai-drawer`;
     const bodyClassName = `${appName}-ai-drawer-body`;
     const openClassName = `${appName}-ai-drawer-open`;
+    const drawerSwitchCloseClassName = `${appName}-ai-drawer-switch-close`;
+
     $container.className = containerClassName;
     $container.setAttribute('popover', 'manual');
     $drawerBody.className = bodyClassName;
@@ -149,13 +178,27 @@ const requestPosition = (el: HTMLIFrameElement) => {
       $container.classList.add(openClassName);
     }
 
-    $drawerSwitch.addEventListener('click', () => {
+    // 点击抽屉开关
+    $drawerRightBtn.addEventListener('click', () => {
       $container?.classList.toggle(openClassName);
     });
 
     $closeButton.addEventListener('click', () => {
       $container?.classList.toggle(openClassName);
     });
+
+    $drawerIcon.addEventListener('click', () => {
+      $drawerSwitch.classList.toggle(drawerSwitchCloseClassName);
+    });
+
+    requestAnimationFrame(() => {
+      // 设置宽度
+      const width = $drawerContentWrapperMain.clientWidth + 2;
+      $drawerContentWrapper.style.width = `${width}px`;
+      $drawerContentWrapperMain.style.width = `${width}px`;
+      $drawerContentWrapper.classList.add('position');
+      $drawerSwitch.classList.add(drawerSwitchCloseClassName);
+    })
   }
 
   const getStylesElement = () => {
