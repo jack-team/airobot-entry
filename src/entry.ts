@@ -155,29 +155,31 @@ const requestPosition = (el: HTMLIFrameElement) => {
     $container = document.createElement('div');
 
     const $drawerBody = document.createElement('div');
+    const $drawerBodyMask = document.createElement('div');
+    const openClassName = `${appName}-ai-drawer-open`;
+    const switchCloseClass = `${appName}-ai-drawer-switch-close`;
     const { $drawerIcon, $drawerSwitch, $drawerRightBtn } = createOpenSwitch();
 
-    const containerClassName = `${appName}-ai-drawer`;
-    const bodyClassName = `${appName}-ai-drawer-body`;
-    const openClassName = `${appName}-ai-drawer-open`;
-    const drawerSwitchCloseClassName = `${appName}-ai-drawer-switch-close`;
-
-    $container.appendChild($drawerBody);
-    $drawerBody.appendChild($closeButton);
-
-    $drawerBody.className = bodyClassName;
-    $container.className = containerClassName;
+    $container.className = `${appName}-ai-drawer`;
+    $drawerBody.className = `${appName}-ai-drawer-body`;
+    $drawerBodyMask.className = `${appName}-ai-drawer-body-mask`;
     $container.setAttribute('popover', 'manual');
 
+    $container.appendChild($drawerBody);
+    $container.appendChild($drawerBodyMask);
+    $drawerBody.appendChild($closeButton);
+
     if (options.openWindow) {
-      $container.classList.add(openClassName);
+      requestAnimationFrame(() => {
+        $container?.classList.add(openClassName);
+      });
     }
 
     // 创建开关
     if (options.openSwitch) {
       // 抽屉开关默认关闭
       if (!options.switchExpand) {
-        $drawerSwitch.classList.add(drawerSwitchCloseClassName);
+        $drawerSwitch.classList.add(switchCloseClass);
       }
       // 点击抽屉开关
       $drawerRightBtn.addEventListener('click', () => {
@@ -191,7 +193,7 @@ const requestPosition = (el: HTMLIFrameElement) => {
     });
 
     $drawerIcon.addEventListener('click', () => {
-      $drawerSwitch.classList.toggle(drawerSwitchCloseClassName);
+      $drawerSwitch.classList.toggle(switchCloseClass);
     });
 
     // 创建iframe
