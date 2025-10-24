@@ -3,9 +3,14 @@ import { FontUrl, AiChatUrl } from './const';
 import { IframeBridge, appName } from './bridge';
 import { getElementSize, getLocation, qs } from './utils';
 
+type Actions = {
+  openWindow: () => void;
+  switchExpand: () => void;
+}
+
 declare global {
   interface Window {
-    initIdeabosqueAi: (options: OpenOptions) => void;
+    initIdeabosqueAi(options: OpenOptions): Actions | undefined;
     removeIdeabosqueAi: () => void;
   }
 }
@@ -149,7 +154,7 @@ const requestPosition = (el: HTMLIFrameElement) => {
   }
 
   // 创建一个抽屉
-  const createDrawer = async (options: OpenOptions) => {
+  const createDrawer = (options: OpenOptions) => {
     const $body = document.body;
     const $closeButton = createCloseButton();
     $container = document.createElement('div');
@@ -200,6 +205,15 @@ const requestPosition = (el: HTMLIFrameElement) => {
     requestPosition(createIframe($drawerBody, $script!));
     $body.appendChild($container);
     $container?.showPopover?.();
+
+    return {
+      openWindow: () => {
+        $container?.classList.add(openClassName);
+      },
+      switchExpand: () => {
+        $drawerSwitch.classList.toggle(switchCloseClass);
+      }
+    }
   }
 
   const getStylesElement = () => {
@@ -211,11 +225,11 @@ const requestPosition = (el: HTMLIFrameElement) => {
   }
 
   // 初始化 ai
-  window.initIdeabosqueAi = async (options: OpenOptions) => {
+  window.initIdeabosqueAi = (options: OpenOptions) => {
     if (created) return;
-    createGoogleFontLink();
-    createDrawer(options);
     created = true;
+    createGoogleFontLink();
+    return createDrawer(options);
   }
 
   // 移除 ai
