@@ -210,8 +210,8 @@ const requestPosition = (el: HTMLIFrameElement) => {
       openWindow: () => {
         $container?.classList.add(openClassName);
       },
-      switchExpand: (open: boolean) => {
-        if (open) {
+      switchExpand: (open = true) => {
+        if (!open) {
           $drawerSwitch.classList.add(switchCloseClass);
         } else {
           $drawerSwitch.classList.remove(switchCloseClass);
