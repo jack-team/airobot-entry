@@ -174,6 +174,10 @@ const requestPosition = (el: HTMLIFrameElement) => {
     $container.appendChild($drawerBodyMask);
     $drawerBody.appendChild($closeButton);
 
+    $drawerBodyMask.addEventListener('click', () => {
+      $container?.classList.remove(openClassName);
+    });
+
     if (options.openWindow) {
       requestAnimationFrame(() => {
         $container?.classList.add(openClassName);
