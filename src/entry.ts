@@ -5,7 +5,7 @@ import { getElementSize, getLocation, qs } from './utils';
 
 type Actions = {
   openWindow: () => void;
-  switchExpand: () => void;
+  switchExpand: (open: boolean) => void;
 }
 
 declare global {
@@ -210,8 +210,12 @@ const requestPosition = (el: HTMLIFrameElement) => {
       openWindow: () => {
         $container?.classList.add(openClassName);
       },
-      switchExpand: () => {
-        $drawerSwitch.classList.toggle(switchCloseClass);
+      switchExpand: (open: boolean) => {
+        if (open) {
+          $drawerSwitch.classList.add(switchCloseClass);
+        } else {
+          $drawerSwitch.classList.remove(switchCloseClass);
+        }
       }
     }
   }
