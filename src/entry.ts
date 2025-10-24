@@ -5,9 +5,15 @@ import { getElementSize, getLocation, qs } from './utils';
 
 declare global {
   interface Window {
-    initIdeabosqueAi: () => void;
+    initIdeabosqueAi: (options: OpenOptions) => void;
     removeIdeabosqueAi: () => void;
   }
+}
+
+type OpenOptions = {
+  openWindow?: boolean;
+  openSwitch?: boolean;
+  switchExpand?: boolean;
 }
 
 let airobotUrl = AiChatUrl;
@@ -119,7 +125,7 @@ const requestPosition = (el: HTMLIFrameElement) => {
     $drawerContent.className = `${appName}-ai-drawer-switch-content`;
     $drawerRightBtn.className = `${appName}-ai-drawer-switch-right-btn`;
     $drawerContentWrapper.className = `${appName}-ai-drawer-switch-content-wrapper`;
-    $drawerContentWrapperMain.className= `${appName}-ai-drawer-switch-content-wrapper-main`
+    $drawerContentWrapperMain.className = `${appName}-ai-drawer-switch-content-wrapper-main`
 
     $drawerSwitch.appendChild($drawerIcon);
     $drawerContentWrapper.appendChild($drawerContent);
@@ -143,45 +149,42 @@ const requestPosition = (el: HTMLIFrameElement) => {
   }
 
   // 创建一个抽屉
-  const createDrawer = async (open = true) => {
+  const createDrawer = async (options: OpenOptions) => {
     const $body = document.body;
-    $container = document.createElement('div');
-    const $drawerBody = document.createElement('div');
     const $closeButton = createCloseButton();
+    $container = document.createElement('div');
 
-    const { 
-      $drawerIcon,
-      $drawerSwitch, 
-      $drawerRightBtn, 
-      $drawerContentWrapper, 
-      $drawerContentWrapperMain 
-    } = createOpenSwitch();
+    const $drawerBody = document.createElement('div');
+    const { $drawerIcon, $drawerSwitch, $drawerRightBtn } = createOpenSwitch();
 
     const containerClassName = `${appName}-ai-drawer`;
     const bodyClassName = `${appName}-ai-drawer-body`;
     const openClassName = `${appName}-ai-drawer-open`;
     const drawerSwitchCloseClassName = `${appName}-ai-drawer-switch-close`;
 
+    $container.appendChild($drawerBody);
+    $drawerBody.appendChild($closeButton);
+
+    $drawerBody.className = bodyClassName;
     $container.className = containerClassName;
     $container.setAttribute('popover', 'manual');
-    $drawerBody.className = bodyClassName;
 
-    $container.appendChild($drawerBody);
-    $container.appendChild($drawerSwitch);
-    $drawerBody.appendChild($closeButton);
-    $body.appendChild($container);
-    // 创建iframe
-    requestPosition(createIframe($drawerBody, $script!))
-
-    if (open) {
-      $container?.showPopover?.();
+    if (options.openWindow) {
       $container.classList.add(openClassName);
     }
 
-    // 点击抽屉开关
-    $drawerRightBtn.addEventListener('click', () => {
-      $container?.classList.toggle(openClassName);
-    });
+    // 创建开关
+    if (options.openSwitch) {
+      // 抽屉开关默认关闭
+      if (!options.switchExpand) {
+        $drawerSwitch.classList.add(drawerSwitchCloseClassName);
+      }
+      // 点击抽屉开关
+      $drawerRightBtn.addEventListener('click', () => {
+        $container?.classList.toggle(openClassName);
+      });
+      $container.appendChild($drawerSwitch);
+    }
 
     $closeButton.addEventListener('click', () => {
       $container?.classList.toggle(openClassName);
@@ -191,14 +194,10 @@ const requestPosition = (el: HTMLIFrameElement) => {
       $drawerSwitch.classList.toggle(drawerSwitchCloseClassName);
     });
 
-    requestAnimationFrame(() => {
-      // 设置宽度
-      const width = $drawerContentWrapperMain.clientWidth + 2;
-      $drawerContentWrapper.style.width = `${width}px`;
-      $drawerContentWrapperMain.style.width = `${width}px`;
-      $drawerContentWrapper.classList.add('position');
-      $drawerSwitch.classList.add(drawerSwitchCloseClassName);
-    })
+    // 创建iframe
+    requestPosition(createIframe($drawerBody, $script!));
+    $body.appendChild($container);
+    $container?.showPopover?.();
   }
 
   const getStylesElement = () => {
@@ -210,10 +209,10 @@ const requestPosition = (el: HTMLIFrameElement) => {
   }
 
   // 初始化 ai
-  window.initIdeabosqueAi = async (open = true) => {
+  window.initIdeabosqueAi = async (options: OpenOptions) => {
     if (created) return;
     createGoogleFontLink();
-    createDrawer(open);
+    createDrawer(options);
     created = true;
   }
 
