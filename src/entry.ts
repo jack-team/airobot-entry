@@ -84,7 +84,11 @@ const createIframe = (container: Element, script: Element) => {
   $el.setAttribute('frameborder', '0');
   $el.setAttribute('allow', 'geolocation');
   container.appendChild($el);
-  return $el;
+
+  return {
+    $el,
+    agentName
+  };
 }
 
 const requestPosition = (el: HTMLIFrameElement) => {
@@ -117,7 +121,7 @@ const requestPosition = (el: HTMLIFrameElement) => {
     return $closeButton;
   }
 
-  const createOpenSwitch = () => {
+  const createOpenSwitch = (params: Record<string, any>) => {
     const $drawerSwitch = document.createElement('div');
     const $drawerIcon = document.createElement('div');
     const $drawerContentWrapper = document.createElement('div');
@@ -137,7 +141,7 @@ const requestPosition = (el: HTMLIFrameElement) => {
     $drawerContentWrapperMain.appendChild($drawerContentWrapper);
 
     $drawerContent.innerHTML = `
-      <div class="${appName}-ai-drawer-switch-title">B2B Chat Agent</div>
+      <div class="${appName}-ai-drawer-switch-title">${params.agentName}</div>
       <div class="${appName}-ai-drawer-switch-desc">Get Net 30 at checkout</div>
     `;
 
@@ -158,12 +162,19 @@ const requestPosition = (el: HTMLIFrameElement) => {
     const $body = document.body;
     const $closeButton = createCloseButton();
     $container = document.createElement('div');
-
     const $drawerBody = document.createElement('div');
     const $drawerBodyMask = document.createElement('div');
     const openClassName = `${appName}-ai-drawer-open`;
     const switchCloseClass = `${appName}-ai-drawer-switch-close`;
-    const { $drawerIcon, $drawerSwitch, $drawerRightBtn } = createOpenSwitch();
+    const { $el: $iframe, agentName } = createIframe($drawerBody, $script!);
+
+    const { 
+      $drawerIcon, 
+      $drawerSwitch, 
+      $drawerRightBtn 
+    } = createOpenSwitch({
+      agentName
+    });
 
     $container.className = `${appName}-ai-drawer`;
     $drawerBody.className = `${appName}-ai-drawer-body`;
@@ -205,8 +216,8 @@ const requestPosition = (el: HTMLIFrameElement) => {
       $drawerSwitch.classList.toggle(switchCloseClass);
     });
 
-    // 创建iframe
-    requestPosition(createIframe($drawerBody, $script!));
+     // 创建iframe
+    requestPosition($iframe);
     $body.appendChild($container);
     $container?.showPopover?.();
 
