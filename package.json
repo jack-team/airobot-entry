@@ -1,8 +1,13 @@
 {
-  "name": "airobot-entry",
+  "name": "airobot-sdk",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/ai-chatbot-sdk.js",
+  "types": "dist/ai-chatbot-sdk.d.ts",
   "scripts": {
     "r:dev": "vite --port=5172 --mode dev",
     "r:staging": "vite --port=5172 --mode staging",
@@ -16,7 +21,10 @@
     "typescript": "~5.7.2",
     "vite": "^6.2.0",
     "less": "^4.2.2",
-    "@types/qs": "6.9.18"
+    "@types/qs": "6.9.18",
+    "@types/node": "^20.14.2",
+    "autoprefixer": "^10.4.19",
+    "vite-plugin-css-injected-by-js": "^3.5.2"
   },
   "dependencies": {
     "qs": "6.14.0",

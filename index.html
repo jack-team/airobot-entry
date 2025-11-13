@@ -2,30 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/avatar.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <title>Airobot Sdk</title>
   </head>
 
   <body>
-    <div id="app"></div>
-    <script
-      type="module"
-      data-role="ideabosque-ai"
-      width="480"
-      endpoint-id="airobot-store"
-      coordination="2435144671132914168"
-      agent="agent-1760604851-0fda15f6"
-      agent-name="B2B Chat Agent"
-      src="/src/entry.ts"
-    ></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        window.initIdeabosqueAi({
-          openWindow: true,
-          openSwitch: true
-        });
-      });
-    </script>
+    <div id="app">
+      <button onclick="alert('点我')">a</button>
+    </div>
+    <script type="module" src="/src/index.ts"></script>
   </body>
 </html>

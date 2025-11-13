@@ -1,7 +1,10 @@
 import { defineConfig } from "vite";
+import autoprefixer from "autoprefixer";
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
+import path from 'path';
 
 // https://vitejs.dev/config/
-export default defineConfig(config => {
+export default defineConfig((_) => {
   const envDir = "./env";
   const envPrefix = ["ENV"];
 
@@ -12,15 +15,24 @@ export default defineConfig(config => {
       host: '0.0.0.0',
       allowedHosts: true
     },
+    css: {
+      postcss: {
+        plugins: [autoprefixer(["Last 5 versions"])],
+      },
+    },
+    plugins: [
+      cssInjectedByJsPlugin()
+    ],
     build: {
-      rollupOptions: {
-        output: {
-          entryFileNames: 'entry.js',
-          // 对于其他静态资源（如图片、字体等）
-          assetFileNames: '[name].[ext]',
-          format: 'umd'
-        }
-      }
+      lib: {
+        entry: path.resolve(__dirname, './src/sdk/index.ts'),
+        name: 'AiChatbot',
+        fileName: 'ai-chatbot-sdk',
+        formats: ['es', 'umd', 'iife']
+      },
+      sourcemap: true,
+      // 清空输出目录
+      emptyOutDir: true
     }
   };
 });
