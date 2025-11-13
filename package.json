@@ -4,8 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=5172",
-    "build": "tsc && vite build",
+    "r:dev": "vite --port=5172 --mode dev",
+    "r:staging": "vite --port=5172 --mode staging",
+    "r:prod": "vite --port=5172 --mode prod",
+    "build:dev": "tsc && vite build --mode dev",
+    "build:staging": "tsc && vite build --mode staging",
+    "build:prod": "tsc && vite build --mode prod",
     "preview": "vite preview"
   },
   "devDependencies": {
