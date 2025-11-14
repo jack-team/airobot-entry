@@ -9,8 +9,8 @@ const airobotSdk = new AirobotSdk({
   question: 'email:578091306@qq.com,fullname:Jack Jiang,totalprice:4000'
 });
 
- airobotSdk.init();
+airobotSdk.init();
 
- setTimeout(() => {
+setTimeout(() => {
   airobotSdk.openWindow();
- })
+})
