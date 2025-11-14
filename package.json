@@ -6,8 +6,7 @@
   "files": [
     "dist"
   ],
-  "main": "dist/ai-chatbot-sdk.js",
-  "types": "dist/ai-chatbot-sdk.d.ts",
+  "main": "dist/sdk.js",
   "scripts": {
     "r:dev": "vite --port=5172 --mode dev",
     "r:staging": "vite --port=5172 --mode staging",

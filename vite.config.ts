@@ -26,8 +26,8 @@ export default defineConfig((_) => {
     build: {
       lib: {
         entry: path.resolve(__dirname, './src/sdk/index.ts'),
-        name: 'AiChatbot',
-        fileName: 'ai-chatbot-sdk',
+        name: 'AiChatbotSdk',
+        fileName: 'sdk',
         formats: ['es', 'umd', 'iife']
       },
       sourcemap: true,
