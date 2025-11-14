@@ -229,6 +229,6 @@ class AirobotSdk {
   }
 }
 
-export { AirobotSdk }
-
-export default AirobotSdk
+export const create = (options: AirobotSdkOptions) => {
+  return new AirobotSdk(options);
+}

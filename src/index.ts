@@ -1,6 +1,6 @@
-import { AirobotSdk } from './sdk';
+import { create as createSdk } from './sdk';
 
-const airobotSdk = new AirobotSdk({
+const airobotSdk = createSdk({
   agent: 'agent-1760604851-0fda15f6',
   coordination: '2435144671132914168',
   endpointId: 'airobot-store',
